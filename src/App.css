@@ -1,0 +1,19 @@
+.App {
+  text-align: center;
+}
+
+.page__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  height: 75vmin;
+  width: 75vmin;
+}
