@@ -16,10 +16,6 @@ const months = [
   "December"
 ];
 
-// https://prnt.sc/nt0tsq
-
-// chanduiiit@gmail.com
-
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const getDaysInMonth = (year, month) => {
@@ -84,6 +80,7 @@ class App extends Component {
       this.setState({ showPrevMonth: true });
     }
 
+    // Fill in current month's days
     const daysInCurrentMonth = getDaysInMonth(currentYear, month);
     for (let i = 1; i <= daysInCurrentMonth; i++) {
       calendarDays.push({ date: i, month: new Date().getMonth() });
