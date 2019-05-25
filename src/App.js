@@ -54,8 +54,9 @@ class App extends Component {
   }
 
   componentDidUpdate(_, prevState) {
-    if (this.state.month === prevState.month) return;
-    this.fillCalendarDays();
+    if (this.state.month !== prevState.month) {
+      this.fillCalendarDays();
+    }
   }
 
   updateMonth(diff) {
@@ -113,6 +114,7 @@ class App extends Component {
   render() {
     const { calendarDays, month, year } = this.state;
     const currentMonth = new Date().getMonth();
+    const currentDate = new Date().getDate();
 
     return (
       <div className="page__wrapper">
@@ -129,13 +131,21 @@ class App extends Component {
           ))}
           {calendarDays.map((item, index) => (
             <div
-              key={index}
+              key={`${item.month}-${index}`}
               style={{
-                backgroundColor: item.month !== currentMonth ? "#ccc" : "#fff",
+                backgroundColor: item.month === currentMonth ? "#fff" : "#ccc",
                 border: "1px solid #666"
               }}
             >
-              {item.date}
+              <span
+                className={
+                  currentMonth === month && currentDate === item.date
+                    ? "current-day"
+                    : ""
+                }
+              >
+                {item.date}
+              </span>
             </div>
           ))}
         </div>

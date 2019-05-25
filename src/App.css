@@ -17,3 +17,11 @@
   height: 75vmin;
   width: 75vmin;
 }
+
+.current-day {
+  color: red;
+  border-radius: 10px;
+  border: 3px solid red;
+  padding: 0 10px;
+  font-weight: bold;
+}
