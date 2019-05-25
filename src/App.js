@@ -40,8 +40,6 @@ class App extends Component {
     this.state = {
       month: new Date().getMonth(),
       year: new Date().getFullYear(),
-      showPrevMonth: false,
-      showNextMonth: false,
       calendarDays: []
     };
 
@@ -90,7 +88,6 @@ class App extends Component {
       for (let i = startPoint; i <= previousMonthEnd; i++) {
         calendarDays.push({ date: i, month: new Date().getMonth() - 1 });
       }
-      this.setState({ showPrevMonth: true });
     }
 
     // Fill in current month's days
@@ -105,7 +102,6 @@ class App extends Component {
       for (let i = 1; i <= 6 - endDay; i++) {
         calendarDays.push({ date: i, month: new Date().getMonth() + 1 });
       }
-      this.setState({ showNextMonth: true });
     }
 
     this.setState({ calendarDays });
