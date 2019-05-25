@@ -39,6 +39,7 @@ class App extends Component {
     super(props);
     this.state = {
       month: new Date().getMonth(),
+      year: new Date().getFullYear(),
       showPrevMonth: false,
       showNextMonth: false,
       calendarDays: []
@@ -57,22 +58,33 @@ class App extends Component {
     this.fillCalendarDays();
   }
 
-  updateMonth(change) {
-    this.setState(prevState => ({
-      month: prevState.month + change
-    }));
+  updateMonth(diff) {
+    const changed = this.state.month + diff;
+
+    if (changed < 0) {
+      this.setState(prevState => ({
+        month: 12 + changed,
+        year: prevState.year - 1
+      }));
+    } else if (changed > 11) {
+      this.setState(prevState => ({
+        month: changed - 12,
+        year: prevState.year + 1
+      }));
+    } else {
+      this.setState({ month: changed });
+    }
   }
 
   fillCalendarDays() {
-    const { month } = this.state;
-    const currentYear = new Date().getFullYear();
+    const { month, year } = this.state;
     const calendarDays = [];
 
     // If month's starting date is not a Sunday, fill in days from previous month
-    const startDay = getFirstDay(currentYear, month);
+    const startDay = getFirstDay(year, month);
 
     if (startDay > 0) {
-      const previousMonthEnd = getPrevMonthEnd(currentYear, month);
+      const previousMonthEnd = getPrevMonthEnd(year, month);
       const startPoint = previousMonthEnd - startDay + 1;
       for (let i = startPoint; i <= previousMonthEnd; i++) {
         calendarDays.push({ date: i, month: new Date().getMonth() - 1 });
@@ -81,13 +93,13 @@ class App extends Component {
     }
 
     // Fill in current month's days
-    const daysInCurrentMonth = getDaysInMonth(currentYear, month);
+    const daysInCurrentMonth = getDaysInMonth(year, month);
     for (let i = 1; i <= daysInCurrentMonth; i++) {
       calendarDays.push({ date: i, month: new Date().getMonth() });
     }
 
     // If month's ending date is not on a Saturday, fill in remaining days to complete calendar
-    const endDay = getEndingDay(currentYear, month);
+    const endDay = getEndingDay(year, month);
     if (endDay < 6) {
       for (let i = 1; i <= 6 - endDay; i++) {
         calendarDays.push({ date: i, month: new Date().getMonth() + 1 });
@@ -99,7 +111,7 @@ class App extends Component {
   }
 
   render() {
-    const { calendarDays, month } = this.state;
+    const { calendarDays, month, year } = this.state;
     const currentMonth = new Date().getMonth();
 
     return (
@@ -108,7 +120,9 @@ class App extends Component {
           <button onClick={() => this.updateMonth(-1)}>Back</button>
           <button onClick={() => this.updateMonth(1)}>Forward</button>
         </div>
-        <h1>{months[month]}</h1>
+        <h1>
+          {months[month]} {year}
+        </h1>
         <div className="calendar">
           {days.map(day => (
             <div key={day}>{day}</div>
